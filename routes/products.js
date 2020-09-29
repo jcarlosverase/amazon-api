@@ -1,7 +1,7 @@
 const router = require('express').Router();
 let Product = require('../models/product.model');
 
-router.route('/fetch').get((req, res) => {
+router.route('/fetch').post((req, res) => {
     Product.find()
         .then(products => res.json({
             status: 200,
