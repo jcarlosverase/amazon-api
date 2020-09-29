@@ -2,6 +2,17 @@ const router = require('express').Router();
 let Product = require('../models/product.model');
 let API_KEY = "4c6275f3-3c21-49fa-8928-ba8c5c935b3a";
 
+/**
+ * @swagger
+ * /fetch:
+ *  post:
+ *    description: Fetch all products
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ *      '400':
+ *        description: An error ocurred
+ */
 router.route('/fetch').post((req, res) => {
     if (!req.get('API_KEY')) {
         res.status(400).json({
@@ -30,6 +41,25 @@ router.route('/fetch').post((req, res) => {
         }));
 });
 
+/**
+ * @swagger
+ * /find:
+ *  post:
+ *    description: Find products by title
+ *    parameters:
+ *    - name: title
+ *      description: Product title
+ *      in: path
+ *      required: true
+ *      type: string
+ *    produces:
+ *    - application/json
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ *      '400':
+ *        description: An error ocurred
+ */
 router.route('/find').post((req, res) => {
     if (!req.get('API_KEY')) {
         res.status(400).json({
@@ -61,7 +91,26 @@ router.route('/find').post((req, res) => {
         }));
 });
 
-router.route('/:id').get((req, res) => {
+/**
+ * @swagger
+ * /get:
+ *  get:
+ *    description: Get product by ID
+ *    parameters:
+ *    - name: id
+ *      description: Product ID
+ *      in: path
+ *      required: true
+ *      type: string
+ *    produces:
+ *    - application/json
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ *      '400':
+ *        description: An error ocurred
+ */
+router.route('/get/:id').get((req, res) => {
     if (!req.get('API_KEY')) {
         res.status(400).json({
             status: 400,
@@ -73,7 +122,7 @@ router.route('/:id').get((req, res) => {
             message: "Invalid Api Key"
         })
     }
-    
+
     Product.findById(req.params.id)
         .then(product => res.json({
             status: 200,
